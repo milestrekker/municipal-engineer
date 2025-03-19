@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Municipality of Isulan - Engineering Office</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .carousel {
+            position: relative;
+            overflow: hidden;
+            max-height: 500px;
+            background-color: #f3f4f6;
+        }
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 100%;
+        }
+        .carousel-item {
+            min-width: 100%;
+            height: 500px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f3f4f6;
+        }
+        .carousel-item img {
+            height: 100%;
+            width: auto;
+            max-width: 100%;
+            object-fit: contain;
+        }
+        .carousel-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .indicator.active {
+            background-color: white;
+        }
+        .quick-link-tile {
+            transition: transform 0.2s;
+        }
+        .quick-link-tile:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Add padding to body to prevent content from hiding under fixed header -->
+    <div class="pt-28">
+    <!-- Top Bar -->
+    
+
+    <!-- Main Header -->
+    <header class="fixed w-full top-0 z-50 bg-gray-800/90 text-white shadow-md transition-all duration-300">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <img src="./pictures/logo_transparent.png" alt="Isulan Logo" class="h-16 w-auto">
+                    <h1 class="text-2xl font-bold text-white">Office of the Municipal Engineer<br/>Municipality of Isulan</h1>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-200 hover:text-white font-medium">Home</a>
+                    <a href="about.html" class="text-gray-200 hover:text-white font-medium">About</a>
+                    <a href="forms.html" class="text-gray-200 hover:text-white font-medium">Forms</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- AI Search Bar -->
+    <div class="w-full bg-white py-8 shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto">
+                <div class="relative">
+                    <input type="text" 
+                           id="ai-search" 
+                           class="w-full px-6 py-4 text-lg rounded-full border-2 border-gray-300 focus:border-blue-500 focus:outline-none pr-16 shadow-sm" 
+                           placeholder="Ask me anything about Isulan Engineering Office...">
+                    <button onclick="handleAISearch()" 
+                            class="absolute right-3 top-1/2 transform -translate-y-1/2 bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+                        </svg>
+                    </button>
+                </div>
+                <!-- Response Container -->
+                <div id="ai-response" class="mt-4 p-4 rounded-lg bg-gray-50 hidden">
+                    <div class="flex items-start space-x-3">
+                        <div class="flex-shrink-0">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <p id="ai-response-text" class="text-gray-700"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Carousel -->
+    <div></div>
+    <div class="carousel w-full relative group ">
+        <div class="carousel-inner">
+            <div class="carousel-item">
+                <img src="./pictures/announcements/1.jpg" alt="Announcement 1">
+            </div>
+            <div class="carousel-item">
+                <img src="./pictures/announcements/2.jpg" alt="Announcement 2">
+            </div>
+        </div>
+        <!-- Navigation Buttons -->
+        <button class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/30 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" onclick="prevSlide()">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+        </button>
+        <button class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/30 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" onclick="nextSlide()">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+        </button>
+        <div class="carousel-indicators"></div>
+    </div>
+
+    
+
+    <!-- Featured Sections -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- News and Updates -->
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">News and Updates</h2>
+                    <div class="space-y-4">
+                        <div class="border-b pb-4">
+                            <h3 class="font-medium text-gray-800 mb-2">Road Maintenance Schedule</h3>
+                            <p class="text-gray-600 text-sm">View the upcoming road maintenance and repair schedule for this month.</p>
+                            <a href="#" class="text-blue-600 text-sm hover:text-blue-700 mt-2 inline-block">Learn More →</a>
+                        </div>
+                        <div class="border-b pb-4">
+                            <h3 class="font-medium text-gray-800 mb-2">New Building Guidelines</h3>
+                            <p class="text-gray-600 text-sm">Updated building codes and regulations for 2024.</p>
+                            <a href="#" class="text-blue-600 text-sm hover:text-blue-700 mt-2 inline-block">Learn More →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Important Documents -->
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Important Documents</h2>
+                    <div class="space-y-4">
+                        <div class="border-b pb-4">
+                            <h3 class="font-medium text-gray-800 mb-2">Permit Applications</h3>
+                            <p class="text-gray-600 text-sm">Download and fill out necessary permit forms.</p>
+                            <a href="#" class="text-blue-600 text-sm hover:text-blue-700 mt-2 inline-block">Download →</a>
+                        </div>
+                        <div class="border-b pb-4">
+                            <h3 class="font-medium text-gray-800 mb-2">Engineering Standards</h3>
+                            <p class="text-gray-600 text-sm">Access our comprehensive engineering standards guide.</p>
+                            <a href="#" class="text-blue-600 text-sm hover:text-blue-700 mt-2 inline-block">View Guide →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Contact Information</h2>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-5 h-5 text-blue-600 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                            <div>
+                                <h3 class="font-medium text-gray-800">Office Address</h3>
+                                <p class="text-gray-600 text-sm">Municipal Engineering Office<br/>Isulan, Sultan Kudarat</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-5 h-5 text-blue-600 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                            </svg>
+                            <div>
+                                <h3 class="font-medium text-gray-800">Phone</h3>
+                                <p class="text-gray-600 text-sm">+63 XXX XXX XXXX</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-5 h-5 text-blue-600 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                            <div>
+                                <h3 class="font-medium text-gray-800">Email</h3>
+                                <p class="text-gray-600 text-sm">engineering@isulan.gov.ph</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">About</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">Our Office</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Mission & Vision</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Services</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Services</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">Building Permits</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Inspections</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Infrastructure</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">Forms</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Guidelines</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">FAQs</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Connect With Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-white">
+                            <span class="sr-only">Facebook</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-white">
+                            <span class="sr-only">Twitter</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
+                <p>&copy; 2024 Office of the Municipal Engineer - Isulan. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Header transparency on scroll
+        const header = document.getElementById('main-header');
+        let lastScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 50) {
+                header.classList.remove('bg-gray-800/90');
+                header.classList.add('bg-gray-800');
+            } else {
+                header.classList.remove('bg-gray-800');
+                header.classList.add('bg-gray-800/90');
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // Carousel functionality
+        const carousel = document.querySelector('.carousel-inner');
+        const items = document.querySelectorAll('.carousel-item');
+        const indicatorsContainer = document.querySelector('.carousel-indicators');
+        let currentIndex = 0;
+        let intervalId = null;
+        let isHovered = false;
+
+        // Create indicators
+        items.forEach((_, index) => {
+            const indicator = document.createElement('div');
+            indicator.classList.add('indicator');
+            if (index === 0) indicator.classList.add('active');
+            indicator.addEventListener('click', () => goToSlide(index));
+            indicatorsContainer.appendChild(indicator);
+        });
+
+        const indicators = document.querySelectorAll('.indicator');
+
+        function updateIndicators() {
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentIndex);
+            });
+        }
+
+        function goToSlide(index) {
+            currentIndex = index;
+            carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+            updateIndicators();
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % items.length;
+            goToSlide(currentIndex);
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + items.length) % items.length;
+            goToSlide(currentIndex);
+        }
+
+        // Start automatic slideshow
+        function startSlideshow() {
+            if (!isHovered) {
+                intervalId = setInterval(nextSlide, 5000);
+            }
+        }
+
+        function stopSlideshow() {
+            if (intervalId) {
+                clearInterval(intervalId);
+                intervalId = null;
+            }
+        }
+
+        // Add hover events to pause slideshow
+        carousel.parentElement.addEventListener('mouseenter', () => {
+            isHovered = true;
+            stopSlideshow();
+        });
+
+        carousel.parentElement.addEventListener('mouseleave', () => {
+            isHovered = false;
+            startSlideshow();
+        });
+
+        // Initial start
+        startSlideshow();
+
+        // AI Search Functionality
+        async function handleAISearch() {
+            const searchInput = document.getElementById('ai-search');
+            const responseContainer = document.getElementById('ai-response');
+            const responseText = document.getElementById('ai-response-text');
+            const query = searchInput.value.trim();
+
+            if (!query) return;
+
+            // Show loading state
+            responseContainer.classList.remove('hidden');
+            responseText.textContent = 'Thinking...';
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ query })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to get response');
+                }
+
+                const data = await response.json();
+                responseText.textContent = data.response;
+            } catch (error) {
+                responseText.textContent = 'Sorry, I encountered an error. Please try again later.';
+                console.error('Error:', error);
+            }
+        }
+
+        // Add event listener for Enter key
+        document.getElementById('ai-search').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleAISearch();
+            }
+        });
+    </script>
+</body>
+</html>
